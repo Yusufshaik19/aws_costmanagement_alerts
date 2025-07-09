@@ -1,0 +1,35 @@
+name: Deploy AWS Cost Monitor to EC2
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up SSH and known_hosts
+      run: |
+        mkdir -p ~/.ssh
+        echo "${{ secrets.EC2_KEY }}" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        ssh-keyscan -H 13.60.81.42 >> ~/.ssh/known_hosts
+
+    - name: Deploy and run Docker container
+      run: |
+        ssh -o StrictHostKeyChecking=no ec2-user@13.60.81.42 << 'EOF'
+          sudo yum install -y git
+          cd ~
+          rm -rf aws-cost-monitor
+          git clone https://github.com/Yusufshaik19/aws-cost-monitor.git
+          cd aws-cost-monitor
+          docker stop aws-cost-monitor || true
+          docker rm aws-cost-monitor || true
+          docker build -t aws-cost-monitor .
+          docker run -d --name aws-cost-monitor aws-cost-monitor
+        EOF
