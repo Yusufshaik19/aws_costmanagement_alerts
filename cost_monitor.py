@@ -7,10 +7,10 @@ from email.mime.text import MIMEText
 client = boto3.client('ce', region_name='us-east-1')  # Keep us-east-1 for Cost Explorer
 
 # Email settings
-SENDER_EMAIL = "your_email@gmail.com"
-SENDER_PASSWORD = "your_app_password"
-RECEIVER_EMAIL = "receiver_email@gmail.com"
-COST_THRESHOLD = 1.0  # USD
+SENDER_EMAIL = "mullapsrk@gmail.com"
+SENDER_PASSWORD = "qwertyuiop@741"
+RECEIVER_EMAIL = "sk.yusufyvs@gmail.com"
+COST_THRESHOLD = 0.001  # USD
 
 # Get today's cost
 today = datetime.date.today()
