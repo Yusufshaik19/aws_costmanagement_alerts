@@ -23,13 +23,13 @@ jobs:
     - name: Deploy and run Docker container
       run: |
         ssh -o StrictHostKeyChecking=no ec2-user@13.60.81.42 << 'EOF'
-          sudo yum install -y git
+          sudo yum install -y git docker
           cd ~
-          rm -rf aws-cost-monitor
-          git clone https://github.com/Yusufshaik19/aws-cost-monitor.git
-          cd aws-cost-monitor
-          docker stop aws-cost-monitor || true
-          docker rm aws-cost-monitor || true
-          docker build -t aws-cost-monitor .
-          docker run -d --name aws-cost-monitor aws-cost-monitor
+          rm -rf aws_costmanagement_alerts
+          git clone https://github.com/Yusufshaik19/aws_costmanagement_alerts.git
+          cd aws_costmanagement_alerts
+          docker stop cost-monitor || true
+          docker rm cost-monitor || true
+          docker build -t aws-cost-monitor-app .
+          docker run -d --name cost-monitor aws-cost-monitor-app
         EOF
